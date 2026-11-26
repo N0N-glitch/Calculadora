@@ -1,0 +1,174 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#080b0a">
+    <meta name="description" content="Uma calculadora moderna, elegante e simples de utilizar.">
+
+    <title>CALC — Calculadora</title>
+
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+
+    <main class="app">
+
+        <!-- TELA INICIAL -->
+        <section class="welcome-screen" id="welcome-screen">
+
+            <div class="welcome-content">
+
+                <div class="brand">
+                    <div class="brand-icon">C</div>
+                    <span>CALC<span class="green">.</span></span>
+                </div>
+
+                <div class="welcome-center">
+
+                    <div class="status">
+                        <span class="status-dot"></span>
+                        CALCULADORA DIGITAL
+                    </div>
+
+                    <h1>
+                        Simplicidade<br>
+                        em cada <span>cálculo.</span>
+                    </h1>
+
+                    <p>
+                        Uma experiência de cálculo moderna,
+                        intuitiva e feita para você.
+                    </p>
+
+                    <div class="welcome-buttons">
+
+                        <button class="start-button" id="start-button">
+                            Iniciar calculadora
+                            <span>→</span>
+                        </button>
+
+                        <button class="exit-button" id="exit-button">
+                            Sair do site
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <div class="welcome-footer">
+                    <span>CALC. DIGITAL</span>
+                    <span>DESIGN • PRECISION • SIMPLICITY</span>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- TELA DA CALCULADORA -->
+        <section class="calculator-screen hidden" id="calculator-screen">
+
+            <header class="calculator-header">
+
+                <button class="back-button" id="back-button" aria-label="Voltar">
+                    ←
+                </button>
+
+                <div class="calculator-brand">
+                    <span class="brand-icon small">C</span>
+                    <span>CALC<span class="green">.</span></span>
+                </div>
+
+                <span class="header-label">STANDARD</span>
+
+            </header>
+
+
+            <div class="calculator-area">
+
+                <div class="calculator">
+
+                    <div class="calculator-top">
+
+                        <div class="device-name">
+                            <span>CALC</span>
+                            <span class="device-model">PRO / 01</span>
+                        </div>
+
+                        <div class="power-indicator">
+                            <span></span>
+                            ON
+                        </div>
+
+                    </div>
+
+
+                    <!-- VISOR -->
+                    <div class="display">
+
+                        <div class="display-history" id="history">
+                            CALCULADORA PRONTA
+                        </div>
+
+                        <div class="display-value" id="display">
+                            0
+                        </div>
+
+                    </div>
+
+
+                    <!-- BOTÕES -->
+                    <div class="buttons">
+
+                        <button class="key function" data-action="clear">AC</button>
+                        <button class="key function" data-action="delete">DEL</button>
+                        <button class="key function" data-action="percent">%</button>
+                        <button class="key operator" data-operator="/">÷</button>
+
+                        <button class="key" data-number="7">7</button>
+                        <button class="key" data-number="8">8</button>
+                        <button class="key" data-number="9">9</button>
+                        <button class="key operator" data-operator="*">×</button>
+
+                        <button class="key" data-number="4">4</button>
+                        <button class="key" data-number="5">5</button>
+                        <button class="key" data-number="6">6</button>
+                        <button class="key operator" data-operator="-">−</button>
+
+                        <button class="key" data-number="1">1</button>
+                        <button class="key" data-number="2">2</button>
+                        <button class="key" data-number="3">3</button>
+                        <button class="key operator" data-operator="+">+</button>
+
+                        <button class="key function" data-action="sign">+/−</button>
+                        <button class="key zero" data-number="0">0</button>
+                        <button class="key" data-action="decimal">.</button>
+                        <button class="key equals" data-action="equals">=</button>
+
+                    </div>
+
+
+                    <div class="calculator-bottom">
+                        <span>PRECISION ENGINE</span>
+                        <span>01 — CALC</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <footer class="calculator-footer">
+                <span>CALC. DIGITAL</span>
+                <span>FEITO PARA SIMPLIFICAR.</span>
+            </footer>
+
+        </section>
+
+    </main>
+
+</body>
+</html>
