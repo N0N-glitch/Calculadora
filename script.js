@@ -1,9 +1,11 @@
-
 "use strict";
 
-/* =====================================
-   ELEMENTOS
-===================================== */
+/* ==========================================
+   CALC. — CALCULATOR ENGINE
+========================================== */
+
+
+/* ELEMENTOS */
 
 const welcomeScreen = document.getElementById("welcome-screen");
 const calculatorScreen = document.getElementById("calculator-screen");
@@ -14,12 +16,11 @@ const backButton = document.getElementById("back-button");
 
 const display = document.getElementById("display");
 const history = document.getElementById("history");
+
 const buttons = document.querySelector(".buttons");
 
 
-/* =====================================
-   ESTADO
-===================================== */
+/* ESTADO */
 
 let currentValue = "0";
 let previousValue = null;
@@ -31,9 +32,9 @@ let hasError = false;
 let lastOperation = null;
 
 
-/* =====================================
+/* ==========================================
    NAVEGAÇÃO
-===================================== */
+========================================== */
 
 startButton.addEventListener("click", () => {
 
@@ -44,11 +45,13 @@ startButton.addEventListener("click", () => {
 
 });
 
+
 exitButton.addEventListener("click", () => {
 
     window.location.href = "https://www.google.com/";
 
 });
+
 
 backButton.addEventListener("click", () => {
 
@@ -58,9 +61,9 @@ backButton.addEventListener("click", () => {
 });
 
 
-/* =====================================
-   FORMATAÇÃO
-===================================== */
+/* ==========================================
+   FORMATAÇÃO E VISOR
+========================================== */
 
 function formatNumber(value) {
 
@@ -86,16 +89,24 @@ function updateDisplay() {
 
     display.textContent = formatNumber(currentValue);
 
+    display.classList.remove("changed");
+
+    // Reinicia a animação do visor.
+    void display.offsetWidth;
+
+    display.classList.add("changed");
+
 }
 
 
-/* =====================================
-   LIMPAR TUDO
-===================================== */
+/* ==========================================
+   LIMPAR
+========================================== */
 
 function resetCalculator() {
 
     currentValue = "0";
+
     previousValue = null;
     operator = null;
 
@@ -111,9 +122,9 @@ function resetCalculator() {
 }
 
 
-/* =====================================
-   TRATAR ERROS
-===================================== */
+/* ==========================================
+   ERROS
+========================================== */
 
 function showError() {
 
@@ -128,14 +139,14 @@ function showError() {
     lastOperation = null;
 
     display.textContent = "Erro";
-    history.textContent = "OPERAÇÃO INVÁLIDA";
+    history.textContent = "INVALID OPERATION";
 
 }
 
 
-/* =====================================
-   DIGITAR NÚMEROS
-===================================== */
+/* ==========================================
+   NÚMEROS
+========================================== */
 
 function inputNumber(number) {
 
@@ -169,9 +180,9 @@ function inputNumber(number) {
 }
 
 
-/* =====================================
-   NÚMEROS DECIMAIS
-===================================== */
+/* ==========================================
+   DECIMAIS
+========================================== */
 
 function inputDecimal() {
 
@@ -197,9 +208,9 @@ function inputDecimal() {
 }
 
 
-/* =====================================
+/* ==========================================
    OPERAÇÕES
-===================================== */
+========================================== */
 
 function calculate(first, second, selectedOperator) {
 
@@ -230,9 +241,9 @@ function calculate(first, second, selectedOperator) {
 }
 
 
-/* =====================================
+/* ==========================================
    ESCOLHER OPERADOR
-===================================== */
+========================================== */
 
 function chooseOperator(nextOperator) {
 
@@ -262,7 +273,7 @@ function chooseOperator(nextOperator) {
 
         updateDisplay();
 
-    } else {
+    } else if (operator === null) {
 
         previousValue = inputValue;
 
@@ -286,9 +297,9 @@ function chooseOperator(nextOperator) {
 }
 
 
-/* =====================================
-   CALCULAR RESULTADO
-===================================== */
+/* ==========================================
+   RESULTADO
+========================================== */
 
 function calculateResult() {
 
@@ -313,6 +324,7 @@ function calculateResult() {
     } else if (lastOperation !== null && waitingForNextValue) {
 
         firstValue = Number(currentValue);
+
         secondValue = lastOperation.value;
         selectedOperator = lastOperation.operator;
 
@@ -362,9 +374,9 @@ function calculateResult() {
 }
 
 
-/* =====================================
+/* ==========================================
    PORCENTAGEM
-===================================== */
+========================================== */
 
 function calculatePercentage() {
 
@@ -387,8 +399,10 @@ function calculatePercentage() {
     }
 
     if (!Number.isFinite(result)) {
+
         showError();
         return;
+
     }
 
     currentValue = String(result);
@@ -401,9 +415,9 @@ function calculatePercentage() {
 }
 
 
-/* =====================================
-   TROCAR SINAL
-===================================== */
+/* ==========================================
+   SINAL
+========================================== */
 
 function changeSign() {
 
@@ -420,9 +434,9 @@ function changeSign() {
 }
 
 
-/* =====================================
-   APAGAR ÚLTIMO DÍGITO
-===================================== */
+/* ==========================================
+   APAGAR
+========================================== */
 
 function deleteLastDigit() {
 
@@ -450,9 +464,9 @@ function deleteLastDigit() {
 }
 
 
-/* =====================================
-   AÇÕES DOS BOTÕES
-===================================== */
+/* ==========================================
+   AÇÕES
+========================================== */
 
 function handleAction(action) {
 
@@ -487,9 +501,9 @@ function handleAction(action) {
 }
 
 
-/* =====================================
-   CLIQUES NA CALCULADORA
-===================================== */
+/* ==========================================
+   CLIQUES NOS BOTÕES
+========================================== */
 
 buttons.addEventListener("click", (event) => {
 
@@ -522,9 +536,9 @@ buttons.addEventListener("click", (event) => {
 });
 
 
-/* =====================================
+/* ==========================================
    TECLADO FÍSICO
-===================================== */
+========================================== */
 
 document.addEventListener("keydown", (event) => {
 
