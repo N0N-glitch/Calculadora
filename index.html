@@ -1,12 +1,15 @@
 
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="theme-color" content="#080808">
+    <meta name="theme-color" content="#171715">
 
-    <title>CALC. — Calculadora</title>
+    <meta name="description" content="CALC — Uma calculadora digital com personalidade.">
+
+    <title>CALC. — A different way to calculate</title>
 
     <link rel="stylesheet" href="style.css">
     <script src="script.js" defer></script>
@@ -16,62 +19,94 @@
 
     <main class="app">
 
-        <!-- PÁGINA INICIAL -->
+        <!-- =========================
+             PÁGINA INICIAL
+        ========================== -->
+
         <section class="welcome-screen" id="welcome-screen">
 
-            <header class="welcome-header">
-                <div class="brand">
-                    <span class="brand-icon">C</span>
-                    <span>CALC<span class="orange">.</span></span>
+            <header class="site-header">
+
+                <a class="wordmark" href="#" aria-label="CALC">
+                    C<span>.</span>
+                </a>
+
+                <div class="edition">
+                    INDEPENDENT DIGITAL OBJECT
+                    <span>— 001 / 026</span>
                 </div>
 
-                <span class="brand-caption">CALCULADORA DIGITAL</span>
             </header>
 
-            <div class="welcome-content">
 
-                <div class="status">
-                    <span class="status-dot"></span>
-                    PRECISÃO E SIMPLICIDADE
+            <div class="hero">
+
+                <div class="hero-index">
+                    <span>01</span>
+                    <span>THE CALCULATOR PROJECT</span>
                 </div>
 
-                <h1>
-                    Simplicidade<br>
-                    em cada <span>cálculo.</span>
-                </h1>
 
-                <p>
-                    Uma experiência de cálculo moderna,
-                    intuitiva e feita para você.
-                </p>
+                <div class="hero-title">
 
-                <div class="welcome-buttons">
+                    <span class="eyebrow">LESS INTERFACE. MORE FUNCTION.</span>
 
-                    <button id="start-button" class="start-button">
-                        Iniciar calculadora
-                        <span>→</span>
-                    </button>
+                    <h1>
+                        Numbers<br>
+                        with <em>character.</em>
+                    </h1>
 
-                    <button id="exit-button" class="exit-button">
-                        Sair do site
-                    </button>
+                    <div class="hero-mark">C.</div>
+
+                </div>
+
+
+                <div class="hero-bottom">
+
+                    <p>
+                        Uma calculadora direta, precisa e sem distrações.
+                        Feita para transformar operações simples em
+                        uma experiência diferente.
+                    </p>
+
+                    <div class="hero-actions">
+
+                        <button id="start-button" class="start-button">
+                            <span>Entrar na calculadora</span>
+                            <span class="button-arrow">↗</span>
+                        </button>
+
+                        <button id="exit-button" class="exit-button">
+                            Sair do site <span>↗</span>
+                        </button>
+
+                    </div>
 
                 </div>
 
             </div>
 
-            <footer class="welcome-footer">
-                <span>CALC. DIGITAL</span>
-                <span>DESIGN · PRECISION · SIMPLICITY</span>
+
+            <footer class="site-footer">
+
+                <span>CALC. / DIGITAL INSTRUMENT</span>
+
+                <span>DESIGNED TO DO ONE THING WELL.</span>
+
+                <span>2026 ©</span>
+
             </footer>
 
         </section>
 
 
-        <!-- CALCULADORA -->
+        <!-- =========================
+             CALCULADORA
+        ========================== -->
+
         <section class="calculator-screen hidden" id="calculator-screen">
 
-            <div class="calculator-area">
+            <header class="calc-header">
 
                 <button
                     class="back-button"
@@ -81,42 +116,66 @@
                     ←
                 </button>
 
+                <div class="calc-header-title">
+                    <span>CALC.</span>
+                    <span>INSTRUMENT Nº 001</span>
+                </div>
+
+                <span class="calc-edition">01 / 01</span>
+
+            </header>
+
+
+            <div class="calculator-layout">
+
+                <aside class="side-note">
+
+                    <span class="side-number">01—</span>
+
+                    <p>
+                        A SMALL TOOL<br>
+                        FOR BIG IDEAS.
+                    </p>
+
+                    <span class="vertical-note">
+                        PRECISION IS A HABIT.
+                    </span>
+
+                </aside>
+
+
                 <div class="calculator">
 
-                    <!-- PARTE SUPERIOR DO APARELHO -->
-                    <div class="device-header">
+                    <div class="device-top">
 
-                        <div class="device-brand">
-                            CALC <span>PRO / 01</span>
+                        <div class="device-logo">
+                            CALC<span>.</span>
                         </div>
 
-                        <div class="power-indicator">
-                            <span></span>
-                            ON
-                        </div>
+                        <span class="device-model">
+                            DIGITAL / 001
+                        </span>
 
                     </div>
 
 
                     <!-- VISOR -->
-                    <div class="display">
 
-                        <div
-                            class="display-history"
-                            id="history"
-                            aria-live="polite"
-                        ></div>
+                    <div class="display" id="display-area">
+
+                        <div class="display-history" id="history"></div>
 
                         <div
                             class="display-value"
                             id="display"
-                            aria-live="assertive"
+                            aria-live="polite"
                         >0</div>
 
                     </div>
 
 
-                    <!-- TECLADO -->
+                    <!-- TECLAS -->
+
                     <div class="buttons">
 
                         <button class="key function" data-action="clear">AC</button>
@@ -140,26 +199,49 @@
                         <button class="key operator" data-operator="+">+</button>
 
                         <button class="key function" data-action="sign">+/−</button>
-                        <button class="key" data-number="0">0</button>
+                        <button class="key zero" data-number="0">0</button>
                         <button class="key" data-action="decimal">.</button>
                         <button class="key equals" data-action="equals">=</button>
 
                     </div>
 
 
-                    <!-- RODAPÉ DO APARELHO -->
-                    <div class="device-footer">
+                    <div class="device-bottom">
+
                         <span>PRECISION ENGINE</span>
-                        <span>01 — CALC</span>
+                        <span>MADE TO CALCULATE</span>
+
                     </div>
 
                 </div>
 
+
+                <aside class="side-note right-note">
+
+                    <span class="side-number">02—</span>
+
+                    <p>
+                        NO NOISE.<br>
+                        JUST NUMBERS.
+                    </p>
+
+                    <span class="vertical-note">
+                        EST. MMXXVI
+                    </span>
+
+                </aside>
+
             </div>
 
-            <footer class="calculator-footer">
-                <span>CALC. DIGITAL</span>
-                <span>FEITO PARA SIMPLIFICAR.</span>
+
+            <footer class="calc-footer">
+
+                <span>CALC. DIGITAL OBJECT</span>
+
+                <span>USE YOUR KEYBOARD OR TOUCH.</span>
+
+                <span>END / 001</span>
+
             </footer>
 
         </section>
