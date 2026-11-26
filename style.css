@@ -1,166 +1,871 @@
 
-/* ==============================
-   NOVA IDENTIDADE: PRETO E LARANJA
-============================== */
+/* =====================================
+   1. CONFIGURAÇÕES GERAIS
+===================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
 
 :root {
-    --background: #080808;
-    --surface: #151515;
-    --green: #ff8500;
-    --text: #f5f5f5;
-    --muted: #929292;
+    --black: #080808;
+    --dark: #111111;
+    --panel: #171717;
+    --orange: #ff8500;
+    --orange-light: #ffad35;
+    --white: #f5f5f5;
+    --gray: #929292;
 }
 
-/* Identidade e logotipo */
-
-.brand-icon,
-.brand-icon.small {
-    color: #ff8500;
-    border-color: rgba(255,133,0,0.55);
-    background: rgba(255,133,0,0.08);
-    box-shadow: 0 0 20px rgba(255,133,0,0.12);
+html {
+    min-height: 100%;
+    background: var(--black);
 }
 
-.green {
-    color: #ff8500;
+body {
+    min-height: 100vh;
+    min-height: 100dvh;
+    background: var(--black);
+    color: var(--white);
+    font-family: Arial, Helvetica, sans-serif;
+    overflow-x: hidden;
 }
 
-/* Fundo */
+button {
+    font-family: inherit;
+    border: none;
+    cursor: pointer;
+}
 
-.welcome-screen,
-.calculator-screen {
+button:focus-visible {
+    outline: 2px solid var(--orange-light);
+    outline-offset: 4px;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.app {
+    min-height: 100vh;
+    min-height: 100dvh;
+}
+
+
+/* =====================================
+   2. PÁGINA INICIAL
+===================================== */
+
+.welcome-screen {
+    min-height: 100vh;
+    min-height: 100dvh;
+
+    padding:
+        max(30px, env(safe-area-inset-top))
+        25px
+        max(25px, env(safe-area-inset-bottom));
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
     background:
         radial-gradient(
-            ellipse at center,
-            rgba(255,133,0,0.075),
+            ellipse at 50% 48%,
+            rgba(255, 133, 0, 0.10),
             transparent 55%
         ),
-        #080808;
+        var(--black);
+
+    position: relative;
+    isolation: isolate;
 }
 
-/* Status */
+.welcome-screen::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+
+    background-image:
+        linear-gradient(
+            rgba(255,255,255,0.018) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(255,255,255,0.018) 1px,
+            transparent 1px
+        );
+
+    background-size: 45px 45px;
+    mask-image: linear-gradient(
+        to bottom,
+        transparent,
+        black,
+        transparent
+    );
+}
+
+
+/* Cabeçalho inicial */
+
+.welcome-header {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    font-size: 21px;
+    font-weight: 800;
+    letter-spacing: 3px;
+}
+
+.brand-icon {
+    width: 42px;
+    height: 42px;
+
+    display: grid;
+    place-items: center;
+
+    border-radius: 12px;
+    border: 1px solid rgba(255,133,0,0.55);
+
+    background: rgba(255,133,0,0.08);
+    color: var(--orange);
+
+    box-shadow: 0 0 20px rgba(255,133,0,0.1);
+}
+
+.orange {
+    color: var(--orange);
+}
+
+.brand-caption {
+    font-size: 10px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    color: var(--orange);
+    text-align: right;
+}
+
+
+/* Conteúdo principal */
+
+.welcome-content {
+    width: 100%;
+    max-width: 720px;
+    margin: 65px auto;
+
+    text-align: center;
+}
 
 .status {
-    color: #ff9500;
-    border-color: rgba(255,133,0,0.25);
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+
+    padding: 10px 15px;
+    margin-bottom: 30px;
+
+    border: 1px solid rgba(255,133,0,0.25);
+    border-radius: 30px;
+
     background: rgba(255,133,0,0.05);
+    color: var(--orange-light);
+
+    font-size: 10px;
+    font-weight: bold;
+    letter-spacing: 2px;
 }
 
-.status-dot,
-.power-indicator span {
-    background: #ff8500;
-    box-shadow: 0 0 10px #ff8500;
+.status-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--orange);
+
+    box-shadow: 0 0 10px var(--orange);
 }
 
-/* Botões da tela inicial */
+.welcome-content h1 {
+    font-size: clamp(43px, 8vw, 76px);
+    line-height: 1.1;
+    letter-spacing: -3px;
+    font-weight: 800;
+}
+
+.welcome-content h1 span {
+    color: var(--orange);
+}
+
+.welcome-content p {
+    max-width: 440px;
+    margin: 25px auto 35px;
+
+    color: var(--gray);
+    font-size: 15px;
+    line-height: 1.8;
+}
+
+
+/* Botões iniciais */
+
+.welcome-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 13px;
+}
 
 .start-button {
-    background: #ff8500;
-    color: #17100a;
+    width: 100%;
+    max-width: 290px;
+    min-height: 58px;
+
+    padding: 0 22px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+
+    border-radius: 12px;
+
+    background: linear-gradient(
+        135deg,
+        #ffa21c,
+        #f07800
+    );
+
+    color: #160d04;
+    font-size: 14px;
+    font-weight: 800;
+
+    transition: 0.2s ease;
+}
+
+.start-button span {
+    font-size: 22px;
 }
 
 .start-button:hover {
-    background: #ffa52b;
-    box-shadow: 0 10px 35px rgba(255,133,0,0.2);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(255,133,0,0.22);
 }
 
-/* Cabeçalho */
+.exit-button {
+    padding: 13px 25px;
+    background: transparent;
+    color: var(--gray);
+    font-size: 13px;
+    transition: 0.2s;
+}
+
+.exit-button:hover {
+    color: white;
+}
+
+
+/* Rodapé inicial */
+
+.welcome-footer,
+.calculator-footer {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+
+    color: #777777;
+
+    font-size: 9px;
+    font-weight: bold;
+    letter-spacing: 1.5px;
+}
+
+
+/* =====================================
+   3. TELA DA CALCULADORA
+===================================== */
+
+.calculator-screen {
+    min-height: 100vh;
+    min-height: 100dvh;
+
+    display: flex;
+    flex-direction: column;
+
+    padding:
+        max(18px, env(safe-area-inset-top))
+        20px
+        max(20px, env(safe-area-inset-bottom));
+
+    background:
+        radial-gradient(
+            ellipse at 50% 48%,
+            rgba(255,133,0,0.065),
+            transparent 60%
+        ),
+        var(--black);
+
+    animation: screen-appear 0.3s ease;
+}
+
+@keyframes screen-appear {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* Área central */
+
+.calculator-area {
+    width: 100%;
+    flex: 1;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    position: relative;
+
+    padding: 48px 0 25px;
+}
+
+
+/* Botão de voltar */
+
+.back-button {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 48px;
+    height: 48px;
+
+    display: grid;
+    place-items: center;
+
+    background: #151515;
+    color: white;
+
+    border: 1px solid #353535;
+    border-radius: 13px;
+
+    font-size: 25px;
+    transition: 0.2s;
+}
 
 .back-button:hover {
-    border-color: #ff8500;
-    color: #ff8500;
+    color: var(--orange);
+    border-color: var(--orange);
 }
 
-.header-label {
-    color: #ff8500;
-}
 
-/* Corpo da calculadora */
+/* =====================================
+   4. CORPO FÍSICO DA CALCULADORA
+===================================== */
 
 .calculator {
+    width: 100%;
+    max-width: 380px;
+
+    padding: 25px;
+
+    border-radius: 29px;
+
     background: linear-gradient(
         145deg,
-        #242424,
-        #151515 45%,
-        #0c0c0c
+        #252525,
+        #151515 48%,
+        #0d0d0d
     );
 
-    border-color: #383838;
+    border: 1px solid #383838;
+
+    box-shadow:
+        0 30px 70px rgba(0,0,0,0.65),
+        0 8px 20px rgba(0,0,0,0.35),
+        inset 0 1px rgba(255,255,255,0.1);
+
+    position: relative;
 }
 
-/* Visor */
+
+/* Parte superior do aparelho */
+
+.device-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 22px;
+}
+
+.device-brand {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+
+    font-size: 17px;
+    font-weight: 900;
+    letter-spacing: 3px;
+}
+
+.device-brand span {
+    color: #929292;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+}
+
+.power-indicator {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    color: #929292;
+    font-size: 10px;
+    letter-spacing: 1px;
+}
+
+.power-indicator span {
+    width: 9px;
+    height: 9px;
+
+    border-radius: 50%;
+    background: var(--orange);
+
+    box-shadow: 0 0 12px rgba(255,133,0,0.7);
+}
+
+
+/* =====================================
+   5. VISOR
+===================================== */
 
 .display {
-    background: linear-gradient(145deg, #17130e, #090909);
-    border-color: #68401c;
+    width: 100%;
+    min-height: 120px;
+
+    padding: 17px;
+
+    margin-bottom: 23px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    border: 1px solid #66401d;
+    border-radius: 15px;
+
+    background: linear-gradient(
+        145deg,
+        #15110d,
+        #080808
+    );
+
+    box-shadow:
+        inset 0 5px 18px rgba(0,0,0,0.6),
+        0 0 12px rgba(255,133,0,0.035);
+
+    overflow: hidden;
 }
 
 .display-history {
-    color: #b78a5c;
+    min-height: 15px;
+
+    color: #a98a6b;
+
+    text-align: right;
+    font-size: 11px;
+    letter-spacing: 1px;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .display-value {
-    color: #ffb45c;
-    text-shadow: 0 0 15px rgba(255,133,0,0.3);
+    width: 100%;
+
+    color: #ffad35;
+
+    text-align: right;
+
+    font-size: clamp(30px, 8vw, 43px);
+    font-weight: 600;
+    letter-spacing: -1px;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: clip;
+
+    text-shadow: 0 0 15px rgba(255,133,0,0.2);
+
+    font-variant-numeric: tabular-nums;
 }
 
-/* Teclas comuns */
+
+/* =====================================
+   6. TECLADO
+===================================== */
+
+.buttons {
+    width: 100%;
+
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+
+    gap: 11px;
+}
 
 .key {
-    background: linear-gradient(145deg, #303030, #191919);
-    border-color: rgba(255,255,255,0.07);
+    min-width: 0;
+    height: 66px;
+
+    display: grid;
+    place-items: center;
+
+    border-radius: 14px;
+
+    background: linear-gradient(
+        145deg,
+        #343434,
+        #1b1b1b
+    );
+
+    color: #f5f5f5;
+
+    border: 1px solid rgba(255,255,255,0.07);
+
     box-shadow:
-        0 5px 0 #090909,
+        0 5px 0 #0a0a0a,
         0 7px 10px rgba(0,0,0,0.3),
         inset 0 1px rgba(255,255,255,0.06);
+
+    font-size: 23px;
+    font-weight: 600;
+
+    user-select: none;
+    touch-action: manipulation;
+
+    transition:
+        transform 0.08s ease,
+        box-shadow 0.08s ease,
+        background 0.15s ease;
+}
+
+.key:active {
+    transform: translateY(4px);
+
+    box-shadow:
+        0 1px 0 #090909,
+        inset 0 2px 5px rgba(0,0,0,0.3);
 }
 
 .key:hover {
-    background: linear-gradient(145deg, #414141, #242424);
+    background: linear-gradient(
+        145deg,
+        #414141,
+        #252525
+    );
 }
 
-/* Teclas funcionais */
+
+/* Teclas de funções */
 
 .key.function {
-    background: linear-gradient(145deg, #292929, #171717);
     color: #ff9a26;
+
+    background: linear-gradient(
+        145deg,
+        #292929,
+        #171717
+    );
+
+    font-size: 17px;
 }
+
 
 /* Operadores */
 
 .key.operator {
-    background: linear-gradient(145deg, #ff9a18, #e66b00);
+    background: linear-gradient(
+        145deg,
+        #ffa21c,
+        #e66b00
+    );
+
     color: #17100a;
+
+    font-size: 27px;
+    font-weight: 800;
+
+    box-shadow:
+        0 5px 0 #914400,
+        0 7px 12px rgba(0,0,0,0.3);
 }
 
 .key.operator:hover {
-    background: linear-gradient(145deg, #ffad35, #f08000);
+    background: linear-gradient(
+        145deg,
+        #ffb43c,
+        #f08000
+    );
 }
+
 
 /* Resultado */
 
 .key.equals {
-    background: linear-gradient(145deg, #ffad24, #f07800);
+    background: linear-gradient(
+        145deg,
+        #ffb32c,
+        #f07800
+    );
+
     color: #17100a;
+
+    font-size: 29px;
+    font-weight: 900;
+
     box-shadow:
-        0 5px 0 #9b4900,
-        0 7px 15px rgba(255,133,0,0.2);
+        0 5px 0 #984800,
+        0 7px 15px rgba(255,133,0,0.18);
 }
 
 .key.equals:hover {
-    background: #ffbd48;
+    background: #ffc04c;
 }
 
-/* Detalhes inferiores */
 
-.calculator-bottom {
+/* =====================================
+   7. RODAPÉ DA CALCULADORA
+===================================== */
+
+.device-footer {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+
+    margin-top: 24px;
+
     color: #929292;
+
+    font-size: 9px;
+    font-weight: bold;
+    letter-spacing: 1.4px;
 }
 
-/* Fundo da página inicial */
+.calculator-footer {
+    padding-top: 15px;
+}
 
-.welcome-screen::before {
-    background-image:
-        linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+
+/* =====================================
+   8. CELULARES
+===================================== */
+
+@media (max-width: 480px) {
+
+    .welcome-screen {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .welcome-content {
+        margin: 45px auto;
+    }
+
+    .welcome-content h1 {
+        font-size: clamp(40px, 11vw, 56px);
+        letter-spacing: -2px;
+    }
+
+    .welcome-content p {
+        font-size: 14px;
+        max-width: 330px;
+    }
+
+    .brand {
+        font-size: 18px;
+    }
+
+    .brand-icon {
+        width: 36px;
+        height: 36px;
+    }
+
+    .brand-caption {
+        font-size: 8px;
+        letter-spacing: 1px;
+    }
+
+    .welcome-footer,
+    .calculator-footer {
+        font-size: 7px;
+        letter-spacing: 0.8px;
+    }
+
+    .calculator-screen {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    .calculator-area {
+        padding-top: 55px;
+        padding-bottom: 20px;
+    }
+
+    .calculator {
+        max-width: 380px;
+        padding: 20px;
+        border-radius: 25px;
+    }
+
+    .buttons {
+        gap: 9px;
+    }
+
+    .key {
+        height: clamp(54px, 15vw, 66px);
+        border-radius: 12px;
+        font-size: 21px;
+    }
+
+    .key.function {
+        font-size: 15px;
+    }
+
+    .display {
+        min-height: 108px;
+    }
+}
+
+
+/* =====================================
+   9. CELULARES PEQUENOS
+===================================== */
+
+@media (max-width: 350px) {
+
+    .calculator-screen {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .calculator {
+        padding: 15px;
+    }
+
+    .buttons {
+        gap: 7px;
+    }
+
+    .key {
+        height: 53px;
+        font-size: 19px;
+        border-radius: 10px;
+    }
+
+    .key.function {
+        font-size: 13px;
+    }
+
+    .device-brand {
+        font-size: 15px;
+    }
+
+    .device-footer {
+        font-size: 7px;
+        letter-spacing: 1px;
+    }
+
+    .welcome-content h1 {
+        font-size: 39px;
+    }
+}
+
+
+/* =====================================
+   10. CELULARES COM POUCA ALTURA
+===================================== */
+
+@media (max-height: 680px) and (max-width: 600px) {
+
+    .calculator-screen {
+        padding-top: 12px;
+        padding-bottom: 12px;
+    }
+
+    .calculator-area {
+        padding-top: 48px;
+        padding-bottom: 10px;
+    }
+
+    .calculator {
+        padding: 14px;
+    }
+
+    .device-header {
+        margin-bottom: 12px;
+    }
+
+    .display {
+        min-height: 82px;
+        margin-bottom: 14px;
+        padding: 12px;
+    }
+
+    .buttons {
+        gap: 7px;
+    }
+
+    .key {
+        height: 48px;
+    }
+
+    .device-footer {
+        margin-top: 16px;
+    }
+}
+
+
+/* =====================================
+   11. ACESSIBILIDADE
+===================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+    }
 }
