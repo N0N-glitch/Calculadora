@@ -1,9 +1,9 @@
 
 "use strict";
 
-// ==============================
-// ELEMENTOS
-// ==============================
+/* =====================================
+   ELEMENTOS
+===================================== */
 
 const welcomeScreen = document.getElementById("welcome-screen");
 const calculatorScreen = document.getElementById("calculator-screen");
@@ -14,139 +14,197 @@ const backButton = document.getElementById("back-button");
 
 const display = document.getElementById("display");
 const history = document.getElementById("history");
-
 const buttons = document.querySelector(".buttons");
 
 
-// ==============================
-// ESTADO DA CALCULADORA
-// ==============================
+/* =====================================
+   ESTADO
+===================================== */
 
 let currentValue = "0";
 let previousValue = null;
 let operator = null;
+
 let waitingForNextValue = false;
-let lastOperation = null;
 let hasError = false;
 
+let lastOperation = null;
 
-// ==============================
-// NAVEGAÇÃO
-// ==============================
+
+/* =====================================
+   NAVEGAÇÃO
+===================================== */
 
 startButton.addEventListener("click", () => {
+
     welcomeScreen.classList.add("hidden");
     calculatorScreen.classList.remove("hidden");
 
     resetCalculator();
+
 });
 
 exitButton.addEventListener("click", () => {
+
     window.location.href = "https://www.google.com/";
+
 });
 
 backButton.addEventListener("click", () => {
+
     calculatorScreen.classList.add("hidden");
     welcomeScreen.classList.remove("hidden");
+
 });
 
 
-// ==============================
-// FORMATAÇÃO DO VISOR
-// ==============================
+/* =====================================
+   FORMATAÇÃO
+===================================== */
 
 function formatNumber(value) {
+
     const number = Number(value);
 
     if (!Number.isFinite(number)) {
         return "Erro";
     }
 
-    if (Math.abs(number) >= 1e12 || 
-        (Math.abs(number) > 0 && Math.abs(number) < 1e-7)) {
+    if (
+        Math.abs(number) >= 1e12 ||
+        (Math.abs(number) > 0 && Math.abs(number) < 1e-7)
+    ) {
         return number.toExponential(5);
     }
 
     return String(Number(number.toPrecision(12)));
+
 }
 
 
 function updateDisplay() {
+
     display.textContent = formatNumber(currentValue);
+
 }
 
 
-// ==============================
-// LIMPAR CALCULADORA
-// ==============================
+/* =====================================
+   LIMPAR TUDO
+===================================== */
 
 function resetCalculator() {
+
     currentValue = "0";
     previousValue = null;
     operator = null;
+
     waitingForNextValue = false;
-    lastOperation = null;
     hasError = false;
 
-    history.textContent = "CALCULADORA PRONTA";
+    lastOperation = null;
+
+    history.textContent = "";
 
     updateDisplay();
+
 }
 
 
-// ==============================
-// DIGITAR NÚMEROS
-// ==============================
+/* =====================================
+   TRATAR ERROS
+===================================== */
+
+function showError() {
+
+    currentValue = "Erro";
+
+    previousValue = null;
+    operator = null;
+
+    waitingForNextValue = true;
+    hasError = true;
+
+    lastOperation = null;
+
+    display.textContent = "Erro";
+    history.textContent = "OPERAÇÃO INVÁLIDA";
+
+}
+
+
+/* =====================================
+   DIGITAR NÚMEROS
+===================================== */
 
 function inputNumber(number) {
+
     if (hasError) {
         resetCalculator();
     }
 
     if (waitingForNextValue) {
+
         currentValue = number;
         waitingForNextValue = false;
-    } else if (currentValue.replace("-", "").replace(".", "").length >= 12) {
-        return;
+
     } else {
+
+        const digits = currentValue.replace(/[-.]/g, "");
+
+        if (digits.length >= 12) {
+            return;
+        }
+
         currentValue = currentValue === "0"
             ? number
             : currentValue + number;
+
     }
 
+    lastOperation = null;
+
     updateDisplay();
+
 }
 
 
-// ==============================
-// NÚMEROS DECIMAIS
-// ==============================
+/* =====================================
+   NÚMEROS DECIMAIS
+===================================== */
 
 function inputDecimal() {
+
     if (hasError) {
         resetCalculator();
     }
 
     if (waitingForNextValue) {
+
         currentValue = "0.";
         waitingForNextValue = false;
-        updateDisplay();
-        return;
+
+    } else if (!currentValue.includes(".")) {
+
+        currentValue += ".";
+
     }
 
-    if (!currentValue.includes(".")) {
-        currentValue += ".";
-        updateDisplay();
-    }
+    lastOperation = null;
+
+    updateDisplay();
+
 }
 
 
-// ==============================
-// OPERAÇÕES MATEMÁTICAS
-// ==============================
+/* =====================================
+   OPERAÇÕES
+===================================== */
 
-function calculate(first, second, operation) {
-    switch (operation) {
+function calculate(first, second, selectedOperator) {
+
+    switch (selectedOperator) {
+
         case "+":
             return first + second;
 
@@ -157,6 +215,7 @@ function calculate(first, second, operation) {
             return first * second;
 
         case "/":
+
             if (second === 0) {
                 return null;
             }
@@ -165,22 +224,26 @@ function calculate(first, second, operation) {
 
         default:
             return second;
+
     }
+
 }
 
 
-// ==============================
-// ESCOLHER OPERADOR
-// ==============================
+/* =====================================
+   ESCOLHER OPERADOR
+===================================== */
 
 function chooseOperator(nextOperator) {
+
     if (hasError) {
         return;
     }
 
     const inputValue = Number(currentValue);
 
-    if (operator && !waitingForNextValue) {
+    if (operator !== null && !waitingForNextValue) {
+
         const result = calculate(
             previousValue,
             inputValue,
@@ -188,20 +251,25 @@ function chooseOperator(nextOperator) {
         );
 
         if (result === null || !Number.isFinite(result)) {
+
             showError();
             return;
+
         }
 
         currentValue = String(result);
-        updateDisplay();
-
         previousValue = result;
 
+        updateDisplay();
+
     } else {
+
         previousValue = inputValue;
+
     }
 
     operator = nextOperator;
+
     waitingForNextValue = true;
     lastOperation = null;
 
@@ -214,28 +282,45 @@ function chooseOperator(nextOperator) {
 
     history.textContent =
         `${formatNumber(previousValue)} ${symbols[nextOperator]}`;
+
 }
 
 
-// ==============================
-// RESULTADO
-// ==============================
+/* =====================================
+   CALCULAR RESULTADO
+===================================== */
 
 function calculateResult() {
+
     if (hasError) {
         return;
     }
 
-    if (operator === null || previousValue === null) {
+    let firstValue;
+    let secondValue;
+    let selectedOperator;
+
+    if (operator !== null && previousValue !== null) {
+
+        firstValue = previousValue;
+
+        secondValue = waitingForNextValue
+            ? previousValue
+            : Number(currentValue);
+
+        selectedOperator = operator;
+
+    } else if (lastOperation !== null && waitingForNextValue) {
+
+        firstValue = Number(currentValue);
+        secondValue = lastOperation.value;
+        selectedOperator = lastOperation.operator;
+
+    } else {
+
         return;
+
     }
-
-    const secondValue = waitingForNextValue
-        ? previousValue
-        : Number(currentValue);
-
-    const firstValue = previousValue;
-    const selectedOperator = operator;
 
     const result = calculate(
         firstValue,
@@ -244,8 +329,10 @@ function calculateResult() {
     );
 
     if (result === null || !Number.isFinite(result)) {
+
         showError();
         return;
+
     }
 
     const symbols = {
@@ -267,17 +354,20 @@ function calculateResult() {
 
     previousValue = null;
     operator = null;
+
     waitingForNextValue = true;
 
     updateDisplay();
+
 }
 
 
-// ==============================
-// PORCENTAGEM
-// ==============================
+/* =====================================
+   PORCENTAGEM
+===================================== */
 
 function calculatePercentage() {
+
     if (hasError) {
         return;
     }
@@ -286,22 +376,37 @@ function calculatePercentage() {
 
     let result;
 
-    if (operator && previousValue !== null) {
+    if (operator !== null && previousValue !== null) {
+
         result = previousValue * value / 100;
+
     } else {
+
         result = value / 100;
+
+    }
+
+    if (!Number.isFinite(result)) {
+        showError();
+        return;
     }
 
     currentValue = String(result);
+
+    waitingForNextValue = false;
+    lastOperation = null;
+
     updateDisplay();
+
 }
 
 
-// ==============================
-// ALTERAR SINAL
-// ==============================
+/* =====================================
+   TROCAR SINAL
+===================================== */
 
 function changeSign() {
+
     if (hasError || Number(currentValue) === 0) {
         return;
     }
@@ -311,17 +416,21 @@ function changeSign() {
         : "-" + currentValue;
 
     updateDisplay();
+
 }
 
 
-// ==============================
-// APAGAR ÚLTIMO DÍGITO
-// ==============================
+/* =====================================
+   APAGAR ÚLTIMO DÍGITO
+===================================== */
 
 function deleteLastDigit() {
+
     if (hasError) {
+
         resetCalculator();
         return;
+
     }
 
     if (waitingForNextValue) {
@@ -337,32 +446,18 @@ function deleteLastDigit() {
     }
 
     updateDisplay();
+
 }
 
 
-// ==============================
-// ERROS
-// ==============================
-
-function showError() {
-    currentValue = "Erro";
-    previousValue = null;
-    operator = null;
-    waitingForNextValue = true;
-    lastOperation = null;
-    hasError = true;
-
-    display.textContent = "Erro";
-    history.textContent = "OPERAÇÃO INVÁLIDA";
-}
-
-
-// ==============================
-// AÇÕES DOS BOTÕES
-// ==============================
+/* =====================================
+   AÇÕES DOS BOTÕES
+===================================== */
 
 function handleAction(action) {
+
     switch (action) {
+
         case "clear":
             resetCalculator();
             break;
@@ -386,15 +481,18 @@ function handleAction(action) {
         case "sign":
             changeSign();
             break;
+
     }
+
 }
 
 
-// ==============================
-// CLIQUES NO TECLADO
-// ==============================
+/* =====================================
+   CLIQUES NA CALCULADORA
+===================================== */
 
 buttons.addEventListener("click", (event) => {
+
     const button = event.target.closest("button");
 
     if (!button) {
@@ -402,24 +500,31 @@ buttons.addEventListener("click", (event) => {
     }
 
     if (button.dataset.number !== undefined) {
+
         inputNumber(button.dataset.number);
         return;
+
     }
 
     if (button.dataset.operator) {
+
         chooseOperator(button.dataset.operator);
         return;
+
     }
 
     if (button.dataset.action) {
+
         handleAction(button.dataset.action);
+
     }
+
 });
 
 
-// ==============================
-// TECLADO DO CELULAR / PC
-// ==============================
+/* =====================================
+   TECLADO FÍSICO
+===================================== */
 
 document.addEventListener("keydown", (event) => {
 
@@ -430,38 +535,52 @@ document.addEventListener("keydown", (event) => {
     const key = event.key;
 
     if (/^[0-9]$/.test(key)) {
+
         inputNumber(key);
         return;
+
     }
 
     if (key === "." || key === ",") {
+
         inputDecimal();
         return;
+
     }
 
     if (["+", "-", "*", "/"].includes(key)) {
+
         chooseOperator(key);
         return;
+
     }
 
     if (key === "Enter" || key === "=") {
+
         event.preventDefault();
         calculateResult();
         return;
+
     }
 
     if (key === "Backspace") {
+
         deleteLastDigit();
         return;
+
     }
 
     if (key === "Escape") {
+
         resetCalculator();
         return;
+
     }
 
     if (key === "%") {
+
         calculatePercentage();
+
     }
 
 });
